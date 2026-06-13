@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yanos 🇷🇼 - Book Artists in Rwanda</title>
+<style>
+  :root{--purple:#7c3aed;--green:#16a34a;--red:#ef4444;--bg:#f3f4f6;--dark:#1f2937;--text:#374151}
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Roboto,sans-serif}
+  body{background:var(--bg);min-height:100vh;display:flex;flex-direction:column;color:var(--text)}
+.hidden{display:none!important}
+  nav{background:var(--dark);color:white;padding:0.75rem 1rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 4px rgba(0,0,0,0.1)}
+.nav-top{display:flex;justify-content:space-between;align-items:center}
+.nav-brand{display:flex;align-items:center;gap:0.6rem;color:white;text-decoration:none;font-weight:bold;font-size:1.2rem}
+.nav-brand svg{width:28px;height:28px}
+.nav-auth{display:flex;gap:0.5rem}
+.menu-toggle{background:none;border:none;color:white;font-size:1.5rem;cursor:pointer}
+.nav-links{display:none;flex-direction:column;gap:0.5rem;margin-top:0.75rem}
+.nav-links.active{display:flex}
+.nav-links a{color:white;text-decoration:none;padding:0.75rem;border-radius:8px;background:#374151;font-size:1rem;transition:0.2s}
+.nav-links a:hover{background:var(--purple)}
+.container{padding:1.5rem;max-width:1200px;margin:auto;flex:1;width:100%}
+.card{background:white;padding:1.5rem;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);margin-bottom:1rem}
+.btn{padding:0.6rem 1rem;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:0.9rem;transition:0.2s}
+.btn-sm{padding:0.4rem 0.8rem;font-size:0.8rem}
+.btn-purple{background:var(--purple);color:white}
+.btn-purple:hover{opacity:0.9}
+.btn-green{background:var(--green);color:white}
+.btn-green:hover{opacity:0.9}
+.btn-red{background:var(--red);color:white}
+.btn-outline{background:white;color:#6b7280;border:1px solid #ddd}
+.btn-outline.active{background:var(--purple);color:white;border-color:var(--purple)}
+  input,select,textarea{width:100%;padding:0.75rem;margin-bottom:1rem;border:1px solid #ddd;border-radius:8px;font-size:1rem}
+.grid{display:grid;gap:1rem}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.artist-card img{width:100%;height:180px;object-fit:cover;border-radius:8px;margin-bottom:0.5rem;cursor:pointer}
+.artist-stats{display:flex;gap:1rem;color:#666;font-size:0.85rem;margin:0.5rem 0}
+.actions{display:flex;gap:0.4rem;margin-top:0.75rem;flex-wrap:wrap}
+.actions button{flex:1;min-width:70px}
+.center{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 180px)}
+.form-box{width:100%;max-width:420px}
+.media-item{border:1px solid #eee;padding:1rem;border-radius:8px;margin-bottom:1rem}
+.media-item img{width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:0.5rem}
+.media-item audio,.media-item video{width:100%;margin-top:0.5rem}
+.hero{background:linear-gradient(135deg,var(--purple),#a855f7);color:white;padding:3rem 1.5rem;border-radius:12px;text-align:center;margin-bottom:2rem}
+.payment-box{border:2px solid var(--purple);padding:1rem;border-radius:12px;text-align:center}
+.share-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:1000}
+.share-content{background:white;padding:2rem;border-radius:12px;width:90%;max-width:400px}
+.policy-content{line-height:1.8}
+.policy-content h2{color:var(--purple);margin:1.5rem 0 0.5rem 0}
+.policy-content ul{margin-left:1.5rem}
+.profile-header{display:flex;gap:1.5rem;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap}
+.profile-pic{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid var(--purple)}
+.profile-info{flex:1}
+.profile-stats{display:flex;gap:1.5rem;margin:1rem 0;color:#666}
+.stat-item{text-align:center}
+.stat-item b{display:block;font-size:1.3rem;color:var(--dark)}
+footer{background:var(--dark);color:#ccc;text-align:center;padding:1.5rem;margin-top:2rem}
+footer a{color:var(--purple);text-decoration:none;margin:0 0.5rem}
+footer a:hover{text-decoration:underline}
+.warning-box{background:#fef2f2;border:1px solid var(--red);color:var(--red);padding:1rem;border-radius:8px;margin-bottom:1rem}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-top">
+    <a href="#" onclick="showPage('homePage')" class="nav-brand">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+      Yanos 🇷🇼
+    </a>
+    <div style="display:flex;gap:0.5rem;align-items:center">
+      <div class="nav-auth">
+        <button id="logoutBtn" class="btn btn-red hidden" onclick="logout()">Logout</button>
+        <a href="#" id="loginLink" class="btn btn-purple" onclick="showPage('loginPage')">Login</a>
+      </div>
+      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    </div>
+  </div>
+  <div id="navLinks" class="nav-links">
+    <a href="#" onclick="showPage('homePage')">Home</a>
+    <a href="#" onclick="showPage('aboutPage')">About</a>
+    <a href="#" onclick="showPage('artistsPage')">Artists</a>
+    <a href="#" onclick="showPage('productsPage')">Products</a>
+    <a href="#" onclick="showPage('paymentPage')">Payment</a>
+    <a href="#" onclick="showPage('mediaPage')">Upload</a>
+    <a href="#" id="dashboardLink" class="hidden" onclick="showPage('dashboardPage')">Dashboard</a>
+  </div>
+</nav>
+
+<div id="app" class="container">
+  <div id="homePage"><div class="hero"><h1>Yanos 🇷🇼</h1><p>Book DJ, MC, Photographer, Band muri Rwanda. Save & Share Your Work.</p><button class="btn btn-green" style="margin-top:1rem;" onclick="showPage('artistsPage')">Find Artist Now</button></div><h2 style="margin-bottom:1rem;">Featured Artists</h2><div id="homeArtists" class="grid grid-3"></div></div>
+
+  <div id="aboutPage" class="hidden"><div class="card"><h1 style="color:var(--purple); margin-bottom:1rem;">About Yanos 🇷🇼</h1><p><b>Yanos</b> ni Platform ya mbere muri Rwanda ihuza <b>Artists</b>, <b>Event Organizers</b> na <b>Users/Clients</b>.</p></div></div>
+
+  <div id="privacyPage" class="hidden"><div class="card policy-content"><h1 style="color:var(--purple);">Privacy Policy & Copyright</h1><p><i>Last Updated: 2026-04-20</i></p>
+    <h2>1. Ubumenyi bw'Ibihangano</h2><p>Ibihangano byose uhashyira ni `Ibyawe 100%`. Yanos ntiyiriganya `Ownership` yabyo.</p>
+    <h2>2. Copyright Scanner</h2><p>Dukoresha `Scanner` kugira ngo turinde `Ibihangano byibwe`. Niba `File` yawe isa niyifite `Copyright`, tuzakubwira.</p>
+    <h2>3. Kurinda Ibihangano</h2><ul><li>Tugirira inama `Artist` bose gushyiraho `Watermark`.</li><li>Niba umuntu akujije `Copyright`, twandikire kuri `support@yanos.rw`.</li></ul>
+  </div></div>
+
+  <div id="loginPage" class="center hidden"><div class="card form-box"><h2>Login</h2><input type="email" id="loginEmail" placeholder="Email: dj@test.com / org@test.com / user@test.com"><input type="password" id="loginPass" placeholder="Password: any"><button class="btn btn-purple" style="width:100%" onclick="login()">Login</button><p style="text-align:center; margin-top:1rem;">No account? <a href="#" onclick="showPage('registerPage')" style="color:var(--purple);">Register</a></p></div></div>
+
+  <div id="registerPage" class="center hidden"><div class="card form-box"><h1 style="color:var(--purple); margin-bottom:1rem;">Join Yanos</h1><input type="text" id="regName" placeholder="Full Name"><input type="email" id="regEmail" placeholder="Email"><select id="regRole" onchange="toggleArtistCategory()"><option value="user">I'm a User/Client</option><option value="artist">I'm an Artist</option><option value="organizer">I'm an Event Organizer</option></select><select id="regCategory" class="hidden"><option value="">Select Your Category</option><option value="dj">DJ</option><option value="mc">MC</option><option value="photographer">Photographer</option><option value="band">Band</option><option value="singer">Singer</option><option value="sound">Sound Professional</option><option value="dancer">Dancer</option><option value="producer">Producer</option></select><input type="password" id="regPass" placeholder="Password"><button class="btn btn-purple" style="width:100%" onclick="register()">Register</button></div></div>
+
+  <div id="dashboardPage" class="hidden"><h1 id="welcomeText" style="margin-bottom:1.5rem;"></h1><div id="artistDashboard" class="hidden"><h2 style="margin-bottom:1rem;">Artist Dashboard - <span id="artistCategory"></span></h2><button class="btn btn-purple" style="width:100%" onclick="showPage('mediaPage')">🎵 My Media - Upload</button></div><div id="organizerDashboard" class="hidden"><h2 style="margin-bottom:1rem;">Organizer Dashboard</h2><p>Welcome Event Organizer. Shaka abahanzi kuri `Artists`.</p></div><div id="userDashboard" class="hidden"><h2 style="margin-bottom:1rem;">User Dashboard</h2><p>Welcome User. Reba abahanzi kuri `Artists`.</p></div></div>
+
+  <div id="artistsPage" class="hidden"><h1 style="margin-bottom:1rem;">All Artists - 8 Categories</h1><div id="artistsGrid" class="grid grid-3"></div></div>
+
+  <div id="productsPage" class="hidden"><h1 style="margin-bottom:1rem;">Yanos Products & Works</h1><div id="productsGrid" class="grid grid-3"></div></div>
+
+  <div id="paymentPage" class="hidden"><div class="card"><h1 style="color:var(--purple); margin-bottom:1.5rem;">Payment Methods</h1><div class="grid grid-3"><div class="payment-box"><h3>MTN Mobile Money</h3><p><b>Number:</b> 0788 123 456</p></div><div class="payment-box"><h3>Airtel Money</h3><p><b>Number:</b> 0734 123 456</p></div><div class="payment-box"><h3>Bank Account</h3><p><b>Account:</b> 1234567890</p></div></div></div></div>
+
+  <div id="artistDetailPage" class="hidden">
+    <div class="card">
+      <div class="profile-header">
+        <img id="detailImg" class="profile-pic" src="" alt="Profile">
+        <div class="profile-info">
+          <h1 id="detailName"></h1>
+          <p id="detailBio" style="color:#666; margin:0.5rem 0;"></p>
+          <p style="color:#666;" id="detailCatLoc"></p>
+          <div class="profile-stats">
+            <div class="stat-item"><b id="statFollowers">0</b><span>Followers</span></div>
+            <div class="stat-item"><b id="statLikes">0</b><span>Likes</span></div>
+            <div class="stat-item"><b id="statShares">0</b><span>Shares</span></div>
+          </div>
+          <div class="actions">
+            <button id="profileFollowBtn" class="btn btn-sm btn-outline" onclick="toggleFollow(aId)">Follow</button>
+            <button id="profileLikeBtn" class="btn btn-sm btn-outline" onclick="toggleLike(aId)">♡ Like</button>
+            <button class="btn btn-sm btn-outline" onclick="shareArtist(aId)">↗ Share</button>
+            <button class="btn btn-sm btn-green" onclick="bookArtist(aId)">Book</button>
+          </div>
+        </div>
+      </div>
+      <h3 style="margin-top:1.5rem; border-top:1px solid #eee; padding-top:1rem;">Media Zawe 🎧</h3>
+      <div id="artistMediaList"></div>
+    </div>
+  </div>
+
+  <div id="bookingPage" class="hidden"><div class="card" style="max-width:600px; margin:auto;"><h1 id="bookingTitle" style="color:var(--purple); margin-bottom:1rem;"></h1><input type="text" id="eventName" placeholder="Event Name"><input type="number" id="eventBudget" placeholder="Your Budget Frw"><input type="date" id="eventDate"><button class="btn btn-purple" style="width:100%" onclick="submitBooking()">Send Booking Request</button></div></div>
+
+  <div id="mediaPage" class="hidden"><div class="card"><h1 style="color:var(--purple); margin-bottom:1rem;">🎵 My Media Upload</h1><p style="color:#666; margin-bottom:1rem;">Note: Soma <a href="#" onclick="showPage('privacyPage')" style="color:var(--purple);">Privacy Policy</a> yacu. `Copyright Scanner` ikora mbere ya `Upload`.</p><div id="copyrightWarning" class="warning-box hidden"></div><label><b>Title ya Media</b></label><input type="text" id="mediaTitle" placeholder="e.g Vitamin Vibes Mix Day 5"><label><b>Audio cyangwa Video</b></label><input type="file" id="mediaFile" accept="audio/*,video/*"><label><b>Poster/Cover Image</b></label><input type="file" id="mediaPoster" accept="image/*"><label><b>Description</b></label><textarea id="mediaDesc" placeholder="Sobanura iyi Media..." rows="3"></textarea><button class="btn btn-green" style="width:100%; margin-top:1rem;" onclick="uploadMedia()">Upload Now</button><h2 style="margin-top:2rem;">My Uploaded Media</h2><div id="myMediaList"></div></div></div>
+
+  <div id="shareModal" class="share-modal hidden" onclick="closeShare()"><div class="share-content" onclick="event.stopPropagation()"><h2 style="margin-bottom:1rem;">Share Artist</h2><input id="shareLink" readonly><button class="btn btn-purple" style="width:100%; margin-top:1rem;" onclick="copyShare()">Copy Link</button></div></div>
+</div>
+
+<footer>
+  <p>© 2026 Yanos 🇷🇼. All Rights Reserved.</p>
+  <p style="margin-top:0.5rem;">
+    <a href="#" onclick="showPage('homePage')">Home</a> |
+    <a href="#" onclick="showPage('privacyPage')">Privacy Policy</a> |
+    <a href="#" onclick="showPage('aboutPage')">Contact</a>
+  </p>
+</footer>
+
+<script>
+let u=null,aId=null,bId=null;
+const artists=[
+{id:1,name:'Dj-Malin🇷🇼',cat:'dj',loc:'Rwamagana',img:'https://i.imgur.com/l5hF0j8.png',bio:'Kigali Amapiano Log Drum. 5 Years Experience.'},
+{id:2,name:'MC Bruce',cat:'mc',loc:'Kigali',img:'https://i.postimg.cc/8P9mY4cH/mc.jpg',bio:'Professional MC for Weddings & Corporate Events.'},
+{id:3,name:'Photo Lens RW',cat:'photographer',loc:'Rwamagana',img:'https://i.postimg.cc/v8mB8gYH/photo.jpg',bio:'We capture your best moments with 4K quality.'},
+{id:4,name:'Rwanda Allstars',cat:'band',loc:'Kigali',img:'https://i.postimg.cc/9f3k6k0G/band.jpg',bio:'Live Band for all events. 8+ Members.'},
+{id:5,name:'Singer Hope',cat:'singer',loc:'Kigali',img:'https://i.postimg.cc/6p1b2b0G/singer.jpg',bio:'Gospel & R&B Singer. Voice of Angels.'},
+{id:6,name:'Sound Pro Ltd',cat:'sound',loc:'Rwamagana',img:'https://i.postimg.cc/5y2b8b0G/sound.jpg',bio:'Professional Sound System. 20,000W.'},
+{id:7,name:'Dancer Kevin',cat:'dancer',loc:'Kigali',img:'https://i.postimg.cc/3J5k6k0G/dancer.jpg',bio:'Afrobeats & Hip-Hop Dancer. Choreographer.'},
+{id:8,name:'Producer Jay',cat:'producer',loc:'Musanze',img:'https://i.postimg.cc/7b2b8b0G/producer.jpg',bio:'Beat Maker & Producer. Fl Studio Expert.'}
+];
+const products=[{id:1,type:'mixtape',title:'Vitamin Vibes Mix Day 4',artist:'Dj-Malin🇷🇼',price:'Free',img:'https://i.imgur.com/l5hF0j8.png',link:'https://audiomack.com/malin-'}];
+const copyrightDB=['Vitamin Vibes Mix Day 4.mp3','Despacito.mp3','Calm Down.mp3'];
+const g=k=>JSON.parse(localStorage.getItem(k)||'{}');const s=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+
+function toggleMenu(){document.getElementById('navLinks').classList.toggle('active');}
+function showPage(id){document.querySelectorAll('#app > div').forEach(p=>p.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');toggleMenu();if(id==='homePage')renderHome();if(id==='artistsPage')renderArtists();if(id==='productsPage')renderProducts();if(id==='mediaPage')renderMyMedia();}
+
+function toggleArtistCategory(){document.getElementById('regCategory').classList.toggle('hidden',document.getElementById('regRole').value!=='artist');}
+
+function login(){const e=document.getElementById('loginEmail').value;if(!e)return alert('Enter email');
+    if(e.includes('dj'))u={id:1,name:'Dj-Malin',role:'artist',cat:'dj'};
+    else if(e.includes('mc'))u={id:2,name:'MC Bruce',role:'artist',cat:'mc'};
+    else if(e.includes('org'))u={id:9,name:'Event Org',role:'organizer'};
+    else u={id:10,name:'Client User',role:'user'};
+    document.getElementById('logoutBtn').classList.remove('hidden');document.getElementById('loginLink').classList.add('hidden');document.getElementById('dashboardLink').classList.remove('hidden');document.getElementById('welcomeText').innerText=`Welcome, ${u.name} 👋`;document.getElementById('artistDashboard').classList.toggle('hidden',u.role!=='artist');document.getElementById('organizerDashboard').classList.toggle('hidden',u.role!=='organizer');document.getElementById('userDashboard').classList.toggle('hidden',u.role!=='user');document.getElementById('artistCategory').innerText=u.cat?.toUpperCase()||'ARTIST';showPage('dashboardPage');}
+
+function register(){const n=document.getElementById('regName').value,r=document.getElementById('regRole').value,c=document.getElementById('regCategory').value;if(!n)return alert('Enter name');if(r==='artist'&&!c)return alert('Hitamo Category yawe');alert(`Registered as ${r}. Welcome ${n}. Login now.`);showPage('loginPage');}
+
+function logout(){u=null;document.getElementById('logoutBtn').classList.add('hidden');document.getElementById('loginLink').classList.remove('hidden');document.getElementById('dashboardLink').classList.add('hidden');showPage('homePage');}
+
+function getStats(id){
+    const likes=g('likes'),follows=g('follows'),shares=g('shares');
+    return{
+        followers:Object.keys(follows).filter(x=>x.endsWith('-'+id)).length,
+        likes:Object.keys(likes).filter(x=>x.endsWith('-'+id)).length,
+        shares:shares[id]||0
+    };
+}
+function toggleFollow(id){if(!u)return alert('Login first');const f=g('follows'),k=`${u.id}-${id}`;if(f[k])delete f[k];else f[k]=1;s('follows',f);renderArtists();if(aId===id)renderProfile(id);}
+function toggleLike(id){if(!u)return alert('Login first');const l=g('likes'),k=`${u.id}-${id}`;if(l[k])delete l[k];else l[k]=1;s('likes',l);renderArtists();if(aId===id)renderProfile(id);}
+function shareArtist(id){if(!u)return alert('Login first');aId=id;const shares=g('shares');shares[id]=(shares[id]||0)+1;s('shares',shares);const a=artists.find(x=>x.id===id);document.getElementById('shareLink').value=`https://yanos.rw/artist/${a.id}`;document.getElementById('shareModal').classList.remove('hidden');if(aId===id)renderProfile(id);}
+function closeShare(){document.getElementById('shareModal').classList.add('hidden');}
+function copyShare(){navigator.clipboard.writeText(document.getElementById('shareLink').value);alert('Link Copied!');}
+function bookArtist(id){if(!u)return alert('Login first');bId=id;const a=artists.find(x=>x.id===id);document.getElementById('bookingTitle').innerText=`Book ${a.name}`;showPage('bookingPage');}
+function submitBooking(){const a=artists.find(x=>x.id===bId);if(!document.getElementById('eventName').value)return alert('Enter Event Name');alert(`Booking Request Sent to ${a.name}`);showPage('artistsPage');}
+
+function renderCard(a){
+    const stats=getStats(a.id);
+    if(!u)return`<div class="card artist-card"><img src="${a.img}" alt="${a.name}" onclick="viewArtist(${a.id})" onerror="this.src='https://via.placeholder.com/300x180/7c3aed/fff?text=${a.name}'"><h2 onclick="viewArtist(${a.id})" style="cursor:pointer">${a.name}</h2><p style="color:#666;">${a.cat.toUpperCase()} | ${a.loc}</p><div class="artist-stats"><span>👥 ${stats.followers}</span><span>♥ ${stats.likes}</span><span>↗ ${stats.shares}</span></div></div>`;
+
+    const likes=g('likes'),follows=g('follows'),k=`${u.id}-${a.id}`;
+    const isFollowed=!!follows[k],isLiked=!!likes[k];
+    return`<div class="card artist-card"><img src="${a.img}" alt="${a.name}" onclick="viewArtist(${a.id})" onerror="this.src='https://via.placeholder.com/300x180/7c3aed/fff?text=${a.name}'">
+    <h2 onclick="viewArtist(${a.id})" style="cursor:pointer">${a.name}</h2><p style="color:#666;">${a.cat.toUpperCase()} | ${a.loc}</p>
+    <div class="artist-stats"><span>👥 ${stats.followers}</span><span>♥ ${stats.likes}</span><span>↗ ${stats.shares}</span></div>
+    <div class="actions">
+        <button class="btn btn-sm ${isFollowed?'btn-purple':'btn-outline'}" onclick="toggleFollow(${a.id})">${isFollowed?'Following':'Follow'}</button>
+        <button class="btn btn-sm ${isLiked?'btn-purple':'btn-outline'}" onclick="toggleLike(${a.id})">${isLiked?'♥ Liked':'♡ Like'}</button>
+        <button class="btn btn-sm btn-outline" onclick="shareArtist(${a.id})">↗ Share</button>
+        <button class="btn btn-sm btn-green" onclick="bookArtist(${a.id})">Book</button>
+    </div></div>`;
+}
+function renderHome(){document.getElementById('homeArtists').innerHTML=artists.slice(0,3).map(renderCard).join('');}
+function renderArtists(){document.getElementById('artistsGrid').innerHTML=artists.map(renderCard).join('');}
+function renderProducts(){document.getElementById('productsGrid').innerHTML=products.map(p=>`<div class="card"><img src="${p.img}"><h2>${p.title}</h2><p style="color:#666;">${p.artist}</p><p style="color:var(--purple); font-weight:bold;">${p.price}</p><button class="btn btn-purple btn-sm" style="width:100%" onclick="window.open('${p.link}')">View</button></div>`).join('');}
+
+function renderProfile(id){
+    const a=artists.find(x=>x.id===id),stats=getStats(id);
+    document.getElementById('detailImg').src=a.img;
+    document.getElementById('detailName').innerText=a.name;
+    document.getElementById('detailBio').innerText=a.bio;
+    document.getElementById('detailCatLoc').innerText=`${a.cat.toUpperCase()} | ${a.loc}`;
+    document.getElementById('statFollowers').innerText=stats.followers;
+    document.getElementById('statLikes').innerText=stats.likes;
+    document.getElementById('statShares').innerText=stats.shares;
+
+    if(u){
+        const likes=g('likes'),follows=g('follows'),k=`${u.id}-${id}`;
+        const isFollowed=!!follows[k],isLiked=!!likes[k];
+        document.getElementById('profileFollowBtn').className=`btn btn-sm ${isFollowed?'btn-purple':'btn-outline'}`;
+        document.getElementById('profileFollowBtn').innerText=isFollowed?'Following':'Follow';
+        document.getElementById('profileLikeBtn').className=`btn btn-sm ${isLiked?'btn-purple':'btn-outline'}`;
+        document.getElementById('profileLikeBtn').innerText=isLiked?'♥ Liked':'♡ Like';
+    }else{
+        document.getElementById('profileFollowBtn').classList.add('hidden');
+        document.getElementById('profileLikeBtn').classList.add('hidden');
+    }
+    renderArtistMedia(id);
+}
+function viewArtist(id){aId=id;renderProfile(id);showPage('artistDetailPage');}
+
+function runCopyrightScan(file){
+    document.getElementById('copyrightWarning').classList.add('hidden');
+    if(copyrightDB.includes(file.name)){
+        document.getElementById('copyrightWarning').innerHTML=`<b>⚠️ Copyright Alert:</b> Izina "${file.name}" risa n'irifite Copyright. Niba ari ibyawe, shyiraho `+"`Watermark`"+` cyangwa wandikire support@yanos.rw.`;
+        document.getElementById('copyrightWarning').classList.remove('hidden');
+        return false;
+    }
+    return true;
+}
+function uploadMedia(){
+    if(!u||u.role!=='artist')return alert('Ugomba kuba Artist');
+    const f=document.getElementById('mediaFile'),p=document.getElementById('mediaPoster'),t=document.getElementById('mediaTitle').value.trim(),d=document.getElementById('mediaDesc').value.trim(),file=f.files[0];
+    if(!t)return alert('Andika Title');
+    if(!file)return alert('Hitamo Audio/Video');
+    if(file.size>5*1024*1024)return alert('Media Nini cyane. Max: 5MB ku Demo');
+    if(!runCopyrightScan(file))return;
+
+    const readFile=(file,cb)=>{if(!file)return cb(null);const r=new FileReader();r.onload=e=>cb(e.target.result);r.readAsDataURL(file);};
+    readFile(file,mediaSrc=>{
+        readFile(p.files[0],posterSrc=>{
+            const m=g('artist_media');
+            if(!m[u.id])m[u.id]=[];
+            m[u.id].push({id:Date.now(),title:t,desc:d,type:file.type.startsWith('audio')?'audio':'video',src:mediaSrc,poster:posterSrc||artists[0].img,name:file.name});
+            s('artist_media',m);
+            document.getElementById('mediaTitle').value='';document.getElementById('mediaFile').value='';document.getElementById('mediaPoster').value='';document.getElementById('mediaDesc').value='';
+            alert(`${t} Yashyizweho!`);
+            renderMyMedia();
+        });
+    });
+}
+function renderMyMedia(){if(!u)return;const m=g('artist_media')[u.id]||[];document.getElementById('myMediaList').innerHTML=m.length?m.map(x=>`<div class="media-item"><img src="${x.poster}" alt="${x.title}" onerror="this.src='${artists[0].img}'"><b>${x.title}</b> <small>(${x.name})</small><p style="color:#666;margin:0.5rem 0;">${x.desc||'No description'}</p><button class="btn btn-red btn-sm" style="float:right;" onclick="deleteMedia(${x.id})">Delete</button>${x.type==='audio'?`<audio controls src="${x.src}"></audio>`:`<video controls poster="${x.poster}" src="${x.src}"></video>`}</div>`).join(''):'<p style="color:#999;">Nta Media urashyiraho.</p>';}
+function renderArtistMedia(id){const m=g('artist_media')[id]||[];document.getElementById('artistMediaList').innerHTML=m.length?m.map(x=>`<div class="media-item"><img src="${x.poster}" alt="${x.title}"><b>${x.title}</b><p style="color:#666;margin:0.5rem 0;">${x.desc||''}</p>${x.type==='audio'?`<audio controls src="${x.src}"></audio>`:`<video controls poster="${x.poster}" src="${x.src}"></video>`}</div>`).join(''):'<p style="color:#999;">Uyu muhanzi nta Media arashyiraho.</p>';}
+function deleteMedia(id){const m=g('artist_media');m[u.id]=m[u.id].filter(x=>x.id!==id);s('artist_media',m);renderMyMedia();}
+
+showPage('homePage');
+</script>
+</body>
+</html>
